@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React ,{useState} from 'react';
+import Addcar from './Addcar';
+import Carlist from './Carlist';
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () =>{
+  const [cars,setCars] = useState([]);
+
+  const handleAddcar = (newCar) =>{
+    const existingCarIndex = cars.findIndex(
+      (car) =>car.carname === newCar.carname && car.model
+    );
+    if(existingCarIndex !== -1){
+      const updateCars = [...cars];
+      updateCars[existingCarIndex].quantity += newCar.quantity;
+      setCars(updateCars);
+    }
+    else{
+      setCars([...cars,newCar]);
+    }
+  }
+  return(
+    <div className='app-container'>
+    <Carlist cars={cars}/>
+    <Addcar onAddcar ={handleAddcar} /> 
     </div>
   );
-}
+};
 
 export default App;
